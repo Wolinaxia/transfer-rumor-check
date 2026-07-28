@@ -1,0 +1,4 @@
+interface:
+  display_name: "足球转会传闻查证"
+  short_description: "主动联网并跨语言交叉核验足球转会传闻，分别判断真实性与时效性"
+  default_prompt: "使用 $transfer-rumor-check 查证这条足球转会传闻，并分别判断真实性与时效性。"
