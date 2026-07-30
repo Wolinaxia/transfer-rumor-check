@@ -1,5 +1,11 @@
 # transfer-rumor-check · 足球转会传闻查证
 
+![License](https://img.shields.io/badge/license-MIT-2ea44f)
+![Claude Code Skill](https://img.shields.io/badge/Claude_Code-skill-D97757)
+![Codex Skill](https://img.shields.io/badge/Codex-skill-111827)
+
+> **别只搜英语。让 AI 同时检查买卖双方当地信源，再判断一条转会传闻究竟有多真、现在是否还成立。**
+
 一套查证足球转会传闻可信度的 **AI agent skill**。给它一句话——哪怕只是"听说 X 要去 Y 队"——它主动联网建立报道场，沿**两个正交维度**分别下结论：
 
 - **真实性**：这个转会说法有多可能是真的（六档：已官宣 / 极可靠 / 高可信 / 待证实 / 存疑 / 大概率假）
@@ -14,6 +20,24 @@
 - **买卖双方所在地/语言都要搜**——只搜一种语言会系统性漏掉离信源最近、最可能唱反调的卖方本地源（本方法论最重要的一条纪律）。
 - **机构为主的保守分级 + 来源独立性判定**——"很多家都报了"若都转同一次采访，是伪印证，不算多源。
 - **矛盾裁决**——时间不同视为信息演进（新的覆盖旧的）；同时间窗、同等权威仍对立，判为真分歧，真实性封顶"待证实"、两边摊开不选边。
+
+## 30 秒看懂输出
+
+当买方媒体称“交易将成”，卖方本地可靠来源却否认协议时，它不会按报道篇数投票：
+
+| 维度 | 结论 |
+|---|---|
+| 🎯 **真实性** | **待证实** ⚠️ 信源分歧 |
+| ⏱ **时效性** | **进行中**（双方口径仍在对立） |
+
+**本次判定命题**：交易将成——结论只对这个命题负责；“确实在谈”不能证明“必然成交”。
+
+| 立场 | 谁在报 | 口径 |
+|---|---|---|
+| 偏“将成” | 买方所在地媒体 | 接近达成，但多篇报道可能来自同一次采访 |
+| 偏“未成” | 卖方所在地可靠本地源 | 没有协议，谈判阶段与买方报道不符 |
+
+这时系统会识别伪多源、保留真实分歧，并把双方证据透明摊开，而不是替用户强行选边。
 
 ## 为什么它是"方法论"而不是"某个模型的私货"
 
@@ -32,7 +56,14 @@ codex/transfer-rumor-check/     → Codex skill
 
 ### 安装：Claude Code
 
-把 `claude/transfer-rumor-check/` 整个目录拷到 Claude Code 的 skills 目录：
+从 GitHub 克隆并安装：
+
+```bash
+git clone --depth 1 https://github.com/Wolinaxia/transfer-rumor-check.git
+cp -R transfer-rumor-check/claude/transfer-rumor-check ~/.claude/skills/
+```
+
+如果已经位于本仓库根目录：
 
 ```bash
 cp -R claude/transfer-rumor-check ~/.claude/skills/
@@ -46,7 +77,14 @@ cp -R claude/transfer-rumor-check ~/.claude/skills/
 
 ### 安装：Codex
 
-把 `codex/transfer-rumor-check/` 拷到 Codex 的 skills 目录：
+从 GitHub 克隆并安装：
+
+```bash
+git clone --depth 1 https://github.com/Wolinaxia/transfer-rumor-check.git
+cp -R transfer-rumor-check/codex/transfer-rumor-check ~/.codex/skills/
+```
+
+如果已经位于本仓库根目录：
 
 ```bash
 cp -R codex/transfer-rumor-check ~/.codex/skills/
@@ -67,7 +105,12 @@ cp -R codex/transfer-rumor-check ~/.codex/skills/
 - **只摊信息源、不给核实建议**——透明铺开判断依据，让用户自己判断下一步，不假装能替你核实。
 - **`sources.md` 的具体分档是初版**，需按实际媒体生态持续校准（改数据只动 `sources.md`，不碰逻辑）。
 
+## 参与改进
+
+欢迎用一条正在发生、跨语言区或存在信源分歧的真实传闻来压力测试。发现漏搜卖方本地源、来源独立性误判或阶段夸大时，请提交 [Issue](https://github.com/Wolinaxia/transfer-rumor-check/issues)。
+
+如果这套方法对你有帮助，欢迎给仓库一个 Star，让更多球迷和 AI agent 开发者看到它。
+
 ## License
 
 MIT
-
